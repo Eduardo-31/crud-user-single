@@ -1,10 +1,12 @@
 const express = require('express');
 const db = require('./config/db');
+const cors = require('cors')
 const users = require('./users/usersRouters').router
 
 const app = express()
 const PORT= 6000
 
+app.use(cors())
 app.use(express.json())
 
 db.authenticate()
