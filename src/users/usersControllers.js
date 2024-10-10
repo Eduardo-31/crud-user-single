@@ -1,12 +1,24 @@
 const { createUser, getAllUsers, getUserById, deleteUserById, updateUserById } = require("./usersServices")
+require('dotenv').config();
+
+const BASE_URL = process.env.BASE_URL
 
 const getAll = async(req, res) => {
+    const { q } = req.query
+    const offset = Number(req.query.offset) || 0
+    const limit = Number(req.query.limit) || 36  // 4
     try {
-        const {count, rows} = await getAllUsers()
-
+        const {count, rows} = await getAllUsers(q, offset, limit)
+        const nextPage = offset + limit < count ? `${BASE_URL}/?offset=${offset + limit}&limit=${limit}` : null
+        const prevPage = offset - limit >= 0 ? `${BASE_URL}/?offset=${offset - limit}&limit=${limit}` : null
+        
         return res.status(200).json({
             status: 'success',
-            count,
+            info: {
+                count,
+                nextPage,
+                prevPage,
+            },
             users: rows
         })
     } catch (error) {
