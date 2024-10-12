@@ -104,6 +104,12 @@ const validateUserFilter = [
         .notEmpty({ ignore_whitespace: true }).withMessage('the parameter "q" cannot be empty or contain only spaces').bail()
         .isString().withMessage('the parameter "q" must not be duplicated').bail()
         .escape(),
+    query('order')
+        .optional()
+        .notEmpty({ ignore_whitespace: true }).withMessage('the parameter "order" cannot be empty or contain only spaces').bail()
+        .isString().withMessage('the parameter "order" must not be duplicated').bail()
+        .toUpperCase()
+        .isIn(['ASC', 'DESC']).withMessage('the "order" parameter only accepts the values ​​"ASC" or "DESC"'),
         
     (req, res, next) => {
         const result = validationResult(req)

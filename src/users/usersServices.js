@@ -5,7 +5,7 @@ const validator = require('validator')
 
 
 
-const getAllUsers = async(q, offset, limit) => {
+const getAllUsers = async(q, order, offset, limit) => {
     const filter = {}
     if(q){
         filter[Op.or] = []
@@ -24,11 +24,13 @@ const getAllUsers = async(q, offset, limit) => {
         })
     }
 
+
     const users = await Users.findAndCountAll({
         distinct: true,
         where: filter,
         offset,
-        limit
+        limit,
+        order: [['createdAt', order || 'DESC']]
     })
     return users
 }

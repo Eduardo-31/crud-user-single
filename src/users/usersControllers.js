@@ -4,11 +4,11 @@ require('dotenv').config();
 const BASE_URL = process.env.BASE_URL
 
 const getAll = async(req, res) => {
-    const { q } = req.query
+    const { q, order } = req.query
     const offset = Number(req.query.offset) || 0
     const limit = Number(req.query.limit) || 36  // 4
     try {
-        const {count, rows} = await getAllUsers(q, offset, limit)
+        const {count, rows} = await getAllUsers(q, order, offset, limit)
         const nextPage = offset + limit < count ? `${BASE_URL}/api/v1/users/?offset=${offset + limit}&limit=${limit}${q ? `&q=${q}` : ''}` : null
         const prevPage = offset - limit >= 0 ? `${BASE_URL}/api/v1/users/?offset=${offset - limit}&limit=${limit}${q ? `&q=${q}` : ''}` : null
         
