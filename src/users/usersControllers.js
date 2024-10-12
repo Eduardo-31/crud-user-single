@@ -9,8 +9,8 @@ const getAll = async(req, res) => {
     const limit = Number(req.query.limit) || 36  // 4
     try {
         const {count, rows} = await getAllUsers(q, offset, limit)
-        const nextPage = offset + limit < count ? `${BASE_URL}/?offset=${offset + limit}&limit=${limit}` : null
-        const prevPage = offset - limit >= 0 ? `${BASE_URL}/?offset=${offset - limit}&limit=${limit}` : null
+        const nextPage = offset + limit < count ? `${BASE_URL}/api/v1/users/?offset=${offset + limit}&limit=${limit}${q ? `&q=${q}` : ''}` : null
+        const prevPage = offset - limit >= 0 ? `${BASE_URL}/api/v1/users/?offset=${offset - limit}&limit=${limit}${q ? `&q=${q}` : ''}` : null
         
         return res.status(200).json({
             status: 'success',
