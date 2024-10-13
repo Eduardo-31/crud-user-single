@@ -29,8 +29,7 @@ const getAllUsers = async(q, order, offset, limit) => {
         distinct: true,
         where: filter,
         offset,
-        limit,
-        order: [['createdAt', order || 'DESC']]
+        limit
     })
     return users
 }
